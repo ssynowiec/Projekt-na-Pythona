@@ -3,6 +3,7 @@
 
 ## Run project
 ```commandline
+yarn init-proj
 yarn start
 ```
 
