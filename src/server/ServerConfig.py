@@ -45,7 +45,7 @@ class ServerConfig:
             'PREFERRED_URL_SCHEME': 'http',
             'PRESERVE_CONTEXT_ON_EXCEPTION': None,
             'PROPAGATE_EXCEPTIONS': None,
-            'SECRET_KEY': None,
+            'SECRET_KEY': '_&"j$MlHsVvz*72~iZt,|VDb12L0i9yX[M=,h9{Ou0"!lFh-81Z%,+.LI[VA_`6',
             'SEND_FILE_MAX_AGE_DEFAULT': timedelta(seconds=43200),
             'SERVER_NAME': None,
             'SESSION_COOKIE_DOMAIN': None,
