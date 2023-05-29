@@ -60,6 +60,10 @@ class FileSystem:
         return os.path.exists(_pathToFile)
 
     @staticmethod
+    def create_dir(_dirPath):
+        os.makedirs(_dirPath, exist_ok=True)
+
+    @staticmethod
     def get_root_folder() -> Path:
         """
         A method that returns the path to the root directory.
