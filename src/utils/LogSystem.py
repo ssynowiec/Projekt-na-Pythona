@@ -44,10 +44,6 @@ class LogSystem:
 
     @classmethod
     def __set_console_config(cls):
-        cls.__create_path_to_log()
-        cls.__create_name_log()
-        cls.__create_directories()
-
         consoleHandler = logging.StreamHandler()
 
         consoleHandler.setFormatter(cls.__formatter)
@@ -55,6 +51,10 @@ class LogSystem:
 
     @classmethod
     def __set_file_config(cls):
+        cls.__create_path_to_log()
+        cls.__create_name_log()
+        cls.__create_directories()
+        
         fileHandler = RotatingFileHandler(cls.__pathToLog + cls.__fileLogName)
 
         fileHandler.setFormatter(cls.__formatter)
