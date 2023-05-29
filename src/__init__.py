@@ -3,10 +3,9 @@
 # anything from it that could in any way affect the functioning of the application.
 #
 # <Flask's main data package>
-import os.path
-from src.utils.FileSystem import FileSystem
-
 from flask import Flask
+
+from src.utils.FileSystem import FileSystem
 
 app: Flask = Flask(__name__,
                    root_path=str(FileSystem.get_root_folder()),
@@ -19,3 +18,4 @@ app: Flask = Flask(__name__,
 # Thanks to this, we clearly tell flask that such files are somewhere in the project and we give it
 # information that they are used to render the image of the web application.
 import src.view.ControllerView
+import src.api
