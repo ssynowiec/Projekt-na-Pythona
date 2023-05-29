@@ -20,9 +20,7 @@ class Users:
             cursor.execute('SELECT * FROM users')
             rows = cursor.fetchall()
             for row in rows:
-                user = {}
-                user['id'] = row['id']
-                user['username'] = row['username']
+                user = {'id': row['id'], 'username': row['username']}
                 cls.users.append(user)
         except Exception as e:
             return {'message': 'Error connecting to database: ' + str(e)}
