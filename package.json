@@ -1,15 +1,32 @@
 {
   "name": "Projekt-na-Pythona",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Krystian-Isu/Projekt-na-Pythona.git"
+  },
+  "contributors": [
+    {
+      "name": "Krystian Ozga",
+      "email": ""
+    },
+    {
+      "name": "Stanisław Synowiec",
+      "email": "stasyn1410@gmail.com"
+    }
+  ],
   "packageManager": "yarn@3.5.0",
   "scripts": {
-    "start": "yarn build && python3 ./migrations/init_db.py && python3 main.py",
-    "install": "pip install -r requirements.txt && yarn install",
-    "build": "yarn tailwindcss -i ./src/style/input.scss -o ./public/css/main.css --minify",
-    "css": "yarn tailwindcss -i ./src/style/input.scss -o ./public/css/main.css --watch"
+    "start": "concurrently \"yarn init-db\" \"yarn start-backend\" \"yarn start-frontend\"",
+    "start-backend": "python3 main.py",
+    "start-frontend": "cd web && yarn dev",
+    "init-db": "python3 migrations/init_db.py",
+    "init-proj": "pip3 install -r requirements.txt && yarn install && cd web && yarn install"
   },
-  "devDependencies": {
-    "autoprefixer": "^10.4.14",
-    "postcss": "^8.4.23",
-    "tailwindcss": "^3.3.2"
+  "workspaces": [
+    "./web"
+  ],
+  "dependencies": {
+    "concurrently": "^8.0.1"
   }
 }

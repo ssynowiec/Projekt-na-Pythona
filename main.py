@@ -20,7 +20,8 @@ if __name__ == '__main__':
     # At the same time, the given options are fully independent of each other, but they should not be
     # exercised at the same time.
     while True:
-        optionVal: bool = click.confirm('Activate unit test for software?', default=True)
+        # optionVal: bool = click.confirm('Activate unit test for software?', default=True)
+        optionVal: bool = False
 
         match optionVal:
             case True:
