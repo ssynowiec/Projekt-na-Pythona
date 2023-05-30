@@ -1,0 +1,8 @@
+DROP TABLE IF EXISTS authors;
+
+CREATE TABLE authors (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    surname TEXT NOT NULL
+    birth_date DATE NOT NULL
+);
