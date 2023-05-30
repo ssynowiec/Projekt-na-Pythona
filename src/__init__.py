@@ -4,6 +4,7 @@
 #
 # <Flask's main data package>
 from flask import Flask
+from flask_cors import CORS
 
 from src.utils.EnvSystem import EnvSystem
 from src.utils.FileSystem import FileSystem
@@ -12,6 +13,8 @@ app: Flask = Flask(__name__,
                    root_path=str(FileSystem.get_root_folder()),
                    template_folder='templates',
                    static_folder='public')
+
+CORS(app, origins=['http://localhost:3000'])
 
 ###########################################################################
 from src.utils.LogSystem import LogSystem

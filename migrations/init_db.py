@@ -17,7 +17,7 @@ try:
 
     cur = connection.cursor()
 
-    print("Inserting some data into tables...")
+    print("Inserting demo data into tables...")
     # insert some users
     cur.execute("INSERT INTO users (username) VALUES (?)", ('admin',))
     cur.execute("INSERT INTO users (username) VALUES (?)", ('demo',))
