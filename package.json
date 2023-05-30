@@ -17,7 +17,8 @@
   ],
   "packageManager": "yarn@3.5.0",
   "scripts": {
-    "start": "concurrently \"yarn init-db\" \"yarn start-backend\" \"yarn start-frontend\"",
+    "start": "concurrently \"yarn start-backend\" \"yarn start-frontend\"",
+    "dev": "concurrently \"yarn init-db\" \"yarn start-backend\" \"yarn start-frontend\"",
     "start-backend": "python3 main.py",
     "start-frontend": "cd web && yarn dev",
     "init-db": "python3 migrations/init_db.py",
