@@ -11,11 +11,12 @@
 #
 import click
 from src.server.Server import Server
+from simple_chalk import yellow
 
 
 # <Main application boot file>
 if __name__ == '__main__':
-
+    print(yellow("Starting API server..."))
     # The user MUST select one of the options provided.
     # At the same time, the given options are fully independent of each other, but they should not be
     # exercised at the same time.
