@@ -12,5 +12,5 @@ def api_get_users():
 
 @app.route('/api/users/<string:name>', methods=['GET'])
 @token_required
-def api_get_user(name):
-    return jsonify(Users.get_by_name(name=name))
+def api_get_user(_name):
+    return jsonify(Users.get_by_name(_name=_name))

@@ -60,7 +60,7 @@ class FileSystem:
         return os.path.exists(_pathToFile)
 
     @staticmethod
-    def create_dir(_dirPath):
+    def create_dir(_dirPath) -> None:
         os.makedirs(_dirPath, exist_ok=True)
 
     @staticmethod
