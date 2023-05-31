@@ -7,22 +7,22 @@ connection.execute("PRAGMA foreign_keys = 1")
 try:
     print(yellow("Creating database..."))
 
-    with open('./migrations/schema.sql') as f:
+    with open('./migrations/schema/schema.sql') as f:
         connection.executescript(f.read())
 
     print(green.bold("[SUCCESS]") + green(" User table created successfully"))
 
-    with open('./migrations/book.schema.sql') as f:
+    with open('./migrations/schema/book.schema.sql') as f:
         connection.executescript(f.read())
 
     print(green.bold("[SUCCESS]") + green(" Book table created successfully"))
 
-    with open('./migrations/publisher.schema.sql') as f:
+    with open('./migrations/schema/publisher.schema.sql') as f:
         connection.executescript(f.read())
 
     print(green.bold("[SUCCESS]") + green(" Publisher table created successfully"))
 
-    with open('./migrations/author.schema.sql') as f:
+    with open('./migrations/schema/author.schema.sql') as f:
         connection.executescript(f.read())
 
     print(green.bold("[SUCCESS]") + green(" Author table created successfully"))
