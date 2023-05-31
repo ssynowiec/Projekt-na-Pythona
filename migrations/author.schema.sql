@@ -1,8 +1,8 @@
-DROP TABLE IF EXISTS authors;
+DROP TABLE IF EXISTS author;
 
-CREATE TABLE authors (
+CREATE TABLE author (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
-    surname TEXT NOT NULL
-    birth_date DATE NOT NULL
+    surname TEXT NOT NULL,
+    birth_date TEXT NOT NULL
 );
