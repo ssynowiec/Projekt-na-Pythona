@@ -164,3 +164,7 @@ cython_debug/
 
 # Server log directory.
 log/
+
+# Yarn
+yarn.lock
+node_modules/

@@ -21,11 +21,11 @@ class LogSystem:
         cls.__set_file_config()
 
     @classmethod
-    def __create_directories(cls):
+    def __create_directories(cls) -> None:
         FileSystem.create_dir(cls.__pathToLog)
 
     @classmethod
-    def __create_path_to_log(cls):
+    def __create_path_to_log(cls) -> None:
         currentDate = datetime.datetime.now()
 
         pathTmp = f'log/' \
@@ -35,7 +35,7 @@ class LogSystem:
         cls.__pathToLog += pathTmp
 
     @classmethod
-    def __create_name_log(cls):
+    def __create_name_log(cls) -> None:
         currentDate = datetime.datetime.now()
 
         pathTmp = f'{currentDate.year}{currentDate.month:02d}{currentDate.day}_logs.log'
@@ -43,14 +43,14 @@ class LogSystem:
         cls.__fileLogName += pathTmp
 
     @classmethod
-    def __set_console_config(cls):
+    def __set_console_config(cls) -> None:
         consoleHandler = logging.StreamHandler()
 
         consoleHandler.setFormatter(cls.__formatter)
         cls.__loggerInstance.addHandler(consoleHandler)
 
     @classmethod
-    def __set_file_config(cls):
+    def __set_file_config(cls) -> None:
         cls.__create_path_to_log()
         cls.__create_name_log()
         cls.__create_directories()

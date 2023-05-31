@@ -10,15 +10,16 @@ class DbConnection:
         cls.conn.row_factory = sqlite3.Row
 
     @classmethod
-    def __open__(cls):
+    def __open__(cls) -> sqlite3.Connection:
         return cls.conn
 
     @classmethod
-    def __close__(cls, exc_type, exc_value, traceback):
+    def __close__(cls) -> None:
         cls.conn.close()
 
     @classmethod
-    def execute(cls, query, params=()):
+    def execute(cls, _query, _params=()) -> list:
         cursor = cls.conn.cursor()
-        cursor.execute(query, params)
+        cursor.execute(_query, _params)
+
         return cursor.fetchall()

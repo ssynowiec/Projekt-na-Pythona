@@ -17,14 +17,13 @@ app: Flask = Flask(__name__,
 CORS(app, origins=['http://localhost:3000'])
 
 ###########################################################################
+# Server log system.
 from src.utils.LogSystem import LogSystem
 
 LogSystem()
 ###########################################################################
-# We already have it
 
-# SECRET_KEY = EnvSystem.get_env_element('SECRET_KEY')
-# app.config['SECRET_KEY'] = SECRET_KEY
+
 ###########################################################################
 # All files in the <view> directory should go here.
 # Thanks to this, we clearly tell flask that such files are somewhere in the project and we give it

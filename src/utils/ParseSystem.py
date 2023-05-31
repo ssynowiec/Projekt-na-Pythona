@@ -51,7 +51,7 @@ class ParseSystem:
         Return:
             The method returns a parameter in the form of text.
         """
-        if isinstance(_val,str):
+        if isinstance(_val, str):
             return _val
 
         return str(_val)
