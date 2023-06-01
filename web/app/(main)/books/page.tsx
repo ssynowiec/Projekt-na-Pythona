@@ -1,17 +1,15 @@
-import { Container } from '../../../components/container/container';
+import { Container } from '@/components/container/container';
 
 const getData = async () => {
 	try {
-		const requestOptions = {
+		const res = await fetch(`${process.env.API_URL}/books`, {
 			method: 'GET',
 			headers: {
 				Authorization: `Bearer ${process.env.API_KEY}`,
 				'Content-Type': 'application/json',
 			},
 			redirect: 'follow',
-		};
-
-		const res = await fetch(`${process.env.API_URL}/books`, requestOptions);
+		});
 
 		if (!res.ok) {
 			throw new Error(`Could not fetch data, received ${res.status}`);
@@ -24,7 +22,7 @@ const getData = async () => {
 };
 
 const Page = async () => {
-	const data = await getData();
+	const data: Book[] = await getData();
 
 	return (
 		<div>
