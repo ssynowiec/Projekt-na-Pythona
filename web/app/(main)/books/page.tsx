@@ -1,3 +1,5 @@
+import { Container } from '../../../components/container/container'
+
 const getData = async () => {
     try {
         const requestOptions = {
@@ -27,14 +29,16 @@ const Page = async () => {
 
     return (
         <div>
+            <Container>
             <h1>Book List</h1>
-            <ul>
-                {data.map((book) => (
-                    <li key={book.id}>
-                        <a>{book.title}</a>
-                    </li>
-                ))}
-            </ul>
+                <ul>
+                    {data.map((book) => (
+                        <li key={book.id}>
+                            <a>{book.title}</a>
+                        </li>
+                    ))}
+                </ul>
+            </Container>
         </div>
     )
 }

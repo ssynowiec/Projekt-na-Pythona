@@ -1,5 +1,7 @@
 import '../globals.css'
 import { Inter } from 'next/font/google'
+import clsx from 'clsx'
+import type { ReactNode } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -12,14 +14,14 @@ type LayoutProps = {
     children: ReactNode
 }
 
-export default function RootLayout({
+const LoginLayout = ({
   children,
-}: LayoutProps) {
+}: LayoutProps) => {
   return (
-    <html lang="en">
-      <body className={inter.className}>
+        <main className="h-screen">
         {children}
-      </body>
-    </html>
+        </main>
   )
 }
+
+export default LoginLayout
