@@ -64,7 +64,7 @@ try:
     )
 
     cur.execute(
-        "INSERT INTO book (author_id, publisher_id, title, description, publication_date, genre, is_available, number_of_pages, cover_image, ISBN) VALUES (?, ?, ? ,?, ?, ?, ?, ?, ?, ?)",
+        "INSERT INTO book (author_id, publisher_id, title, dgescription, publication_date, genre, is_available, number_of_pages, cover_image, ISBN) VALUES (?, ?, ? ,?, ?, ?, ?, ?, ?, ?)",
         (2, 2, 'Zabić drozda', 'To jest opis', '1960-07-11', 'Fikcja', 'True', 281, 'zabic_drozda.jpg', '9780060935467'))
 
     connection.commit()
