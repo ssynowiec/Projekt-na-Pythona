@@ -5,6 +5,7 @@ CREATE TABLE book (
     author_id INTEGER NOT NULL,
     publisher_id INTEGER NOT NULL,
     title VARCHAR(255) NOT NULL,
+    description TEXT,
     publication_date DATE NOT NULL,
     genre VARCHAR(255) NOT NULL,
     is_available TEXT NOT NULL,
