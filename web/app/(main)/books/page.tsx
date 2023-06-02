@@ -1,4 +1,6 @@
 import { Container } from '@/components/container/container';
+import { Link } from '@/components/link/link';
+import { Heading } from '@/components/heading/heading';
 
 const getData = async () => {
 	try {
@@ -21,23 +23,23 @@ const getData = async () => {
 	}
 };
 
-const Page = async () => {
+const BooksPage = async () => {
 	const data: Book[] = await getData();
 
 	return (
-		<div>
-			<Container>
-				<h1>Book List</h1>
-				<ul>
-					{data.map((book) => (
-						<li key={book.id}>
-							<a>{book.title}</a>
-						</li>
-					))}
-				</ul>
-			</Container>
-		</div>
+		<Container>
+			<Heading tag="h1" size="large">
+				Book list
+			</Heading>
+			<ul>
+				{data.map((book) => (
+					<li key={book.id}>
+						<Link href={`/book/${book.id}`}>{book.title}</Link>
+					</li>
+				))}
+			</ul>
+		</Container>
 	);
 };
 
-export default Page;
+export default BooksPage;
