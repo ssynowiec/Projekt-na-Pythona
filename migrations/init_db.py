@@ -1,5 +1,8 @@
 import sqlite3
+
 from simple_chalk import green, red, yellow
+
+print(red.bold("[WARNING]") + red(" This script will delete all data from database.db file"))
 
 connection = sqlite3.connect('database.db')
 connection.execute("PRAGMA foreign_keys = 1")
@@ -7,7 +10,12 @@ connection.execute("PRAGMA foreign_keys = 1")
 try:
     print(yellow("Creating database..."))
 
-    with open('./migrations/schema/schema.sql') as f:
+    with open('./migrations/schema/login_data.schema.sql') as f:
+        connection.executescript(f.read())
+
+    print(green.bold("[SUCCESS]") + green(" Login data table created successfully"))
+
+    with open('./migrations/schema/reader.schema.sql') as f:
         connection.executescript(f.read())
 
     print(green.bold("[SUCCESS]") + green(" User table created successfully"))
@@ -30,10 +38,17 @@ try:
     cur = connection.cursor()
 
     print(yellow("Inserting demo data into tables..."))
-    print(yellow("Inserting users..."))
-    # insert some users
-    cur.execute("INSERT INTO users (username) VALUES (?)", ('admin',))
-    cur.execute("INSERT INTO users (username) VALUES (?)", ('demo',))
+    print(yellow("Inserting readers..."))
+
+    print(yellow("Inserting login data..."))
+    cur.execute("INSERT INTO login_data (login, email, password) VALUES (?, ?, ?)",
+                ('john_doe', 'john@example.com', 'password123'))
+
+    print(yellow("Inserting readers..."))
+    cur.execute(
+        "INSERT INTO reader (card_number, name, surname, PESEL, birthday, phone_number, address_street, postal_code, city, citizenship, login) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
+        ('1234567890', 'John', 'Doe', '12345678901', '1990-01-01', '123-456-789', 'Main Street 123', '12-345', 'City',
+         'USA', 'john_doe'))
 
     print(yellow("Inserting publishers..."))
     # insert some publishers
@@ -65,11 +80,13 @@ try:
 
     cur.execute(
         "INSERT INTO book (author_id, publisher_id, title, description, publication_date, genre, is_available, number_of_pages, cover_image, ISBN) VALUES (?, ?, ? ,?, ?, ?, ?, ?, ?, ?)",
-        (2, 2, 'Zabić drozda', 'To jest opis', '1960-07-11', 'Fikcja', 'True', 281, 'zabic_drozda.jpg', '9780060935467'))
+        (
+            2, 2, 'Zabić drozda', 'To jest opis', '1960-07-11', 'Fikcja', 'True', 281, 'zabic_drozda.jpg',
+            '9780060935467'))
 
     connection.commit()
     print(green.bold("[SUCCESS]") + green.bold(" Database created successfully"))
 except Exception as e:
-    print(red.bold("[ERROR]") + red.bold(" User table creation failed:"), red(e))
+    print(red.bold("[ERROR]") + red.bold(" Table creation failed:"), red(e))
 finally:
     connection.close()
