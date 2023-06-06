@@ -21,7 +21,7 @@ class FileSystem:
         Return:
             The method returns a list of file and directory names.
         """
-        return os.listdir(_path)
+        return os.listdir(_pathToDir)
 
     @staticmethod
     def get_sort_file_list(_pathToDir: str) -> list[str]:
