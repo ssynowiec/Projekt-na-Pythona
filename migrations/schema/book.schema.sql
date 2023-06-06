@@ -10,7 +10,7 @@ CREATE TABLE book (
     genre VARCHAR(255) NOT NULL,
     is_available TEXT NOT NULL,
     number_of_pages INTEGER NOT NULL,
-    cover_image VARCHAR(255) NOT NULL,
+    cover_image TEXT NOT NULL,
     ISBN VARCHAR(255) NOT NULL,
 
     FOREIGN KEY (author_id) REFERENCES author(id),
