@@ -21,8 +21,6 @@ CORS(app, origins=['http://localhost:3000'])
 from src.utils.LogSystem import LogSystem
 
 log: LogSystem = LogSystem()
-###########################################################################
-
 
 ###########################################################################
 # All files in the <view> directory should go here.

@@ -18,6 +18,7 @@ class LogSystem:
         cls.__create_path_to_log()
 
         cls.__create_directories()
+        cls.__print_separate_line()
 
     @classmethod
     def __date_log(cls):
@@ -59,6 +60,9 @@ class LogSystem:
             case 'error':
                 textToSave = f'{cls.__date_log()} [ERROR] {_text}\n'
 
+            case _:
+                textToSave = _text
+
         FileSystem.write(cls.__pathToDir + cls.__fileName, textToSave)
 
     @classmethod
@@ -88,6 +92,10 @@ class LogSystem:
                             print(red(f'\t\t├─── {key}: {value}'))
 
                         index += 1
+
+    @classmethod
+    def __print_separate_line(cls):
+        cls.__print_to_file(f'{"="*90} \n', _type="SEPARATOR")
 
     @classmethod
     def success(cls, _msg: str):
