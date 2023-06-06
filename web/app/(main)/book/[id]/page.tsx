@@ -7,13 +7,14 @@ type BookPageProps = { params: { id: string } };
 
 const getBook = async (id: string) => {
 	try {
-		const res = await fetch(`${process.env.API_URL}/book/${id}`, {
+		const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/book/${id}`, {
 			method: 'GET',
 			headers: {
-				Authorization: `Bearer ${process.env.API_KEY}`,
+				Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
 				'Content-Type': 'application/json',
 			},
 			redirect: 'follow',
+			cache: 'no-cache',
 		});
 
 		if (!res.ok) {
@@ -28,16 +29,10 @@ const getBook = async (id: string) => {
 
 export const generateMetadata = async ({
 	params,
-}: BookPageProps): // parent?: ResolvingMetadata,
-Promise<Metadata> => {
-	// read route params
+}: BookPageProps): Promise<Metadata> => {
 	const id = params.id;
 
-	// fetch data
 	const book: Book = await getBook(id);
-
-	// optionally access and extend (rather than replace) parent metadata
-	// const previousImages = (await parent).openGraph?.images || [];
 
 	return {
 		title: book.title,
