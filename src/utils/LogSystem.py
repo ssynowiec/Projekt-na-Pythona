@@ -4,8 +4,9 @@
 # Thanks to this file, it is easier to understand errors in the software.
 
 import datetime
-from simple_chalk import red, green, yellow, blue
+from simple_chalk import red, green, yellow, blue, cyan
 from src.utils.FileSystem import FileSystem
+from src import app
 
 
 class LogSystem:
@@ -59,6 +60,8 @@ class LogSystem:
                 textToSave = f'{cls.__date_log()} [WARNING] {_text}\n'
             case 'error':
                 textToSave = f'{cls.__date_log()} [ERROR] {_text}\n'
+            case 'debug':
+                textToSave = f'{cls.__date_log()} [DEBUG] {_text}'
 
             case _:
                 textToSave = _text
@@ -76,6 +79,9 @@ class LogSystem:
 
             case 'warning':
                 print(yellow.bold('[WARNING]'), yellow(_text))
+
+            case 'debug':
+                print(cyan.bold('[DEBUG]'), cyan(_text))
 
             case 'error':
                 if len(_params) == 0 :
@@ -116,3 +122,11 @@ class LogSystem:
     def error(cls, _msg: str, _params: dict={}):
         cls.__print_to_file(_msg, _type='error')
         cls.__print_to_console(_msg, _type='error', _params=_params)
+
+    @classmethod
+    def debug(cls, _msg: str):
+        if app.config['DEBUG'] is True:
+            cls.__print_to_console(_msg, _type='debug')
+
+        cls.__print_to_file(_msg, _type='debug')
+
