@@ -1,28 +1,39 @@
-import logging
+# File: LogSystem.py
+#
+# The file responsible for documenting events taking place in Flask.
+# Thanks to this file, it is easier to understand errors in the software.
+
 import datetime
-from logging.handlers import RotatingFileHandler
+from simple_chalk import red, green, yellow, blue
 from src.utils.FileSystem import FileSystem
 
 
 class LogSystem:
-    __loggerInstance: logging.Logger
-    __formatter: logging.Formatter
-    __pathToLog: str
-    __fileLogName: str
+    __fileName: str
+    __pathToDir: str
 
     @classmethod
     def __init__(cls):
-        cls.__loggerInstance = logging.getLogger()
-        cls.__formatter = logging.Formatter('[%(asctime)s] %(levelname)s -> %(message)s')
-        cls.__pathToLog = str()
-        cls.__fileLogName = str()
+        cls.__create_log_name()
+        cls.__create_path_to_log()
 
-        cls.__set_console_config()
-        cls.__set_file_config()
+        cls.__create_directories()
+
+    @classmethod
+    def __date_log(cls):
+        now = datetime.datetime.now()
+        return f'[ {now.year}-{now.month:02d}-{now.day:02d} {now.hour:02d}:{now.minute:02d}:{now.second:02d} ]'
 
     @classmethod
     def __create_directories(cls) -> None:
-        FileSystem.create_dir(cls.__pathToLog)
+        FileSystem.create_dir(cls.__pathToDir)
+
+    @classmethod
+    def __create_log_name(cls) -> None:
+        currentDate = datetime.datetime.now()
+        fileName = f'{currentDate.year}{currentDate.month:02d}{currentDate.day:02d}.log'
+
+        cls.__fileName = fileName
 
     @classmethod
     def __create_path_to_log(cls) -> None:
@@ -32,30 +43,68 @@ class LogSystem:
                   f'{currentDate.year}/' \
                   f'{currentDate.month:02d}/'
 
-        cls.__pathToLog += pathTmp
+        cls.__pathToDir = pathTmp
 
     @classmethod
-    def __create_name_log(cls) -> None:
-        currentDate = datetime.datetime.now()
+    def __print_to_file(cls, _text: str, _type: str):
+        textToSave: str = str()
 
-        pathTmp = f'{currentDate.year}{currentDate.month:02d}{currentDate.day}_logs.log'
+        match _type.lower():
+            case 'success':
+                textToSave = f'{cls.__date_log()} [SUCCESS] {_text}\n'
+            case 'info':
+                textToSave = f'{cls.__date_log()} [INFO] {_text}\n'
+            case 'warning':
+                textToSave = f'{cls.__date_log()} [WARNING] {_text}\n'
+            case 'error':
+                textToSave = f'{cls.__date_log()} [ERROR] {_text}\n'
 
-        cls.__fileLogName += pathTmp
+        FileSystem.write(cls.__pathToDir + cls.__fileName, textToSave)
 
     @classmethod
-    def __set_console_config(cls) -> None:
-        consoleHandler = logging.StreamHandler()
+    def __print_to_console(cls, _text: str, _type: str, _params: dict={}):
+        match _type.lower():
+            case 'success':
+                print(green.bold('[SUCCESS]'), green(_text))
 
-        consoleHandler.setFormatter(cls.__formatter)
-        cls.__loggerInstance.addHandler(consoleHandler)
+            case 'info':
+                print(blue.bold('[INFO]'), blue(_text))
+
+            case 'warning':
+                print(yellow.bold('[WARNING]'), yellow(_text))
+
+            case 'error':
+                if len(_params) == 0 :
+                    print(red.bold('[ERROR]'), red(_text))
+                else:
+                    print(red.bold('[ERROR]'), red.bold(f'┌ {_text}'))
+                    index: int = 1
+
+                    for key, value in _params.items():
+                        if index == len(_params):
+                            print(red(f'\t\t└─── {key}: {value}'))
+
+                        else:
+                            print(red(f'\t\t├─── {key}: {value}'))
+
+                        index += 1
 
     @classmethod
-    def __set_file_config(cls) -> None:
-        cls.__create_path_to_log()
-        cls.__create_name_log()
-        cls.__create_directories()
-        
-        fileHandler = RotatingFileHandler(cls.__pathToLog + cls.__fileLogName)
+    def success(cls, _msg: str):
+        cls.__print_to_file(_msg, _type='success')
+        cls.__print_to_console(_msg, _type='success')
 
-        fileHandler.setFormatter(cls.__formatter)
-        cls.__loggerInstance.addHandler(fileHandler)
+    @classmethod
+    def info(cls, _msg: str):
+        cls.__print_to_file(_msg, _type='info')
+        cls.__print_to_console(_msg, _type='info')
+
+    @classmethod
+    def warning(cls, _msg: str):
+        cls.__print_to_file(_msg, _type='warning')
+        cls.__print_to_console(_msg, _type='warning')
+
+    @classmethod
+    def error(cls, _msg: str, _params: dict={}):
+        cls.__print_to_file(_msg, _type='error')
+        cls.__print_to_console(_msg, _type='error', _params=_params)

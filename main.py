@@ -13,6 +13,8 @@ import click
 from src.server.Server import Server
 from simple_chalk import yellow
 
+from migrations.init_db import init_db
+
 
 # <Main application boot file>
 if __name__ == '__main__':
@@ -32,5 +34,7 @@ if __name__ == '__main__':
             case False:
                 # TODO: Improve referencing to the server and make things more secure than the current one.
                 server: Server = Server()
+                init_db()
+
                 server.start()
                 break

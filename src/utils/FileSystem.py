@@ -21,7 +21,7 @@ class FileSystem:
         Return:
             The method returns a list of file and directory names.
         """
-        return os.listdir(_path)
+        return os.listdir(_pathToDir)
 
     @staticmethod
     def get_sort_file_list(_pathToDir: str) -> list[str]:
@@ -37,7 +37,7 @@ class FileSystem:
         return sorted(FileSystem.get_file_list(_pathToDir))
 
     @staticmethod
-    def delete_file(_pathToFile) -> None:
+    def delete_file(_pathToFile: str) -> None:
         """
         A method that removes a file from the specified location.
 
@@ -60,7 +60,7 @@ class FileSystem:
         return os.path.exists(_pathToFile)
 
     @staticmethod
-    def create_dir(_dirPath) -> None:
+    def create_dir(_dirPath: str) -> None:
         os.makedirs(_dirPath, exist_ok=True)
 
     @staticmethod
@@ -72,3 +72,8 @@ class FileSystem:
             The method returns the absolute path to the root directory.
         """
         return pathlib.Path(__file__).parent.parent.parent
+
+    @staticmethod
+    def write(_filePath: str, _msg: str):
+        with open(_filePath, 'a') as file:
+            file.write(_msg)
