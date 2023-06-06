@@ -18,7 +18,9 @@ CORS(app, origins=['http://localhost:3000'])
 
 ###########################################################################
 # Server log system.
+from src.utils.LogSystem import LogSystem
 
+log: LogSystem = LogSystem()
 ###########################################################################
 
 
