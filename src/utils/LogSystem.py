@@ -92,10 +92,10 @@ class LogSystem:
 
                     for key, value in _params.items():
                         if index == len(_params):
-                            print(red(f'\t\t└─── {key}: {value}'))
+                            print(red(f'\t└─── {key}: {value}'))
 
                         else:
-                            print(red(f'\t\t├─── {key}: {value}'))
+                            print(red(f'\t├─── {key}: {value}'))
 
                         index += 1
 

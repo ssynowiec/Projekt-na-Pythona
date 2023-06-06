@@ -67,7 +67,8 @@ class ServerConfig:
             'TRAP_HTTP_EXCEPTIONS': False,
             'USE_X_SENDFILE': False,
             'DATABASE_PATH': '',
-            'SCHEMA_PATH': ''
+            'SCHEMA_PATH': '',
+            'QUERY_INIT_PATH': ''
         }
         cls.__serverInfo = ServerInfo(defaultConfig)
 

@@ -11,6 +11,7 @@ class SQLite:
     __conn: sql.Connection
     __cursor: sql.Cursor
     __schemaDir: str
+    __queryDir: str
 
     @classmethod
     def __init__(cls, _db: str):
@@ -19,9 +20,10 @@ class SQLite:
         cls.__conn = sql.connect(app.config['DATABASE_PATH'] + _db)
         cls.__cursor = cls.__conn.cursor()
         cls.__schemaDir = app.config['SCHEMA_PATH']
+        cls.__queryDir = app.config['QUERY_INIT_PATH']
         cls.__conn.row_factory = sql.Row
 
-        cls.execute('PRAGMA foreign_keys = 1')
+        # cls.execute('PRAGMA foreign_keys = 1')
 
     @classmethod
     def __get_info_query(cls, _query: str):
@@ -90,3 +92,28 @@ class SQLite:
 
         for file in fileList:
             cls.load_schema(file)
+
+    @classmethod
+    def load_query_init(cls, _fileName: str):
+        try:
+            with open(cls.__queryDir + _fileName) as queryFile:
+                cls.__conn.executescript(queryFile.read())
+
+            log.success(f'The query has been successfully loaded -> {_fileName}')
+
+        except Exception as e:
+            log.error(f'Failed to execute commands -> {_fileName}', {
+                'Problem': e.__str__()
+            })
+
+    @classmethod
+    def load_all_exist_query(cls) -> None:
+        log.info('Loading a list of query files...')
+        fileList = FileSystem.get_sort_file_list(cls.__queryDir)
+
+        for file in fileList:
+            cls.load_query_init(file)
+
+    @classmethod
+    def commit(cls):
+        cls.__conn.commit()

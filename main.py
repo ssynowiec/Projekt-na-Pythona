@@ -11,6 +11,7 @@
 #
 import sys
 from src.server.Server import Server
+from migrations.Init_db import Init_db
 from src import log
 
 
@@ -24,8 +25,7 @@ if __name__ == '__main__':
             case '-init-db':
                 log.debug('Console command loaded [ -init-db ]')
                 log.info('Initializing the database...')
-                # TODO: Uruchomienie inicjalizacji servera!
-                pass
+                Init_db()
 
             case '-init-tests':
                 log.debug('Console command loaded [ -init-tests ]')
