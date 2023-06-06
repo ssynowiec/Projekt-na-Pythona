@@ -61,7 +61,7 @@ class LogSystem:
             case 'error':
                 textToSave = f'{cls.__date_log()} [ERROR] {_text}\n'
             case 'debug':
-                textToSave = f'{cls.__date_log()} [DEBUG] {_text}'
+                textToSave = f'{cls.__date_log()} [DEBUG] {_text}\n'
 
             case _:
                 textToSave = _text

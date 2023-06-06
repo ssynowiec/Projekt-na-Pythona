@@ -8,7 +8,7 @@ from src.utils.EnvSystem import EnvSystem
 from src.utils.ParseSystem import ParseSystem
 
 from datetime import timedelta
-from src import app
+from src import app, log
 
 
 class ServerConfig:
@@ -18,12 +18,19 @@ class ServerConfig:
 
     @classmethod
     def __init__(cls):
+        log.info('Loading server configuration...')
+
         cls.__env = EnvSystem('ServerConfig.env')
         cls.__default_config()
 
         if cls.__env.file_exist():
+            log.debug('Configuration file found.')
+            log.debug('Loading a new configuration...')
+
             cls.__config_file()
             cls.__use_new_config()
+
+        log.success('Server configuration successfully loaded!')
 
     # A method that sets the server's default parameters. Do not change anything in the dictionary that
     # contains these parameters. This is a backup in case the configuration file is not available or some
@@ -82,4 +89,5 @@ class ServerConfig:
     @classmethod
     def __use_new_config(cls) -> None:
         for key, val in cls.__serverInfo.get_all_config().items():
+            log.debug(f'Configuration is set for the value: {key} -> {val}')
             app.config[key] = val

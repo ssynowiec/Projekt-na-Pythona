@@ -22,16 +22,19 @@ if __name__ == '__main__':
     if len(sys.argv) > 1:
         match sys.argv[1].lower():
             case '-init-db':
+                log.debug('Console command loaded [ -init-db ]')
                 log.info('Initializing the database...')
                 # TODO: Uruchomienie inicjalizacji servera!
                 pass
 
             case '-init-tests':
+                log.debug('Console command loaded [ -init-tests ]')
                 log.info('Initializing the tests...')
                 # TODO: Uruchamianie testów!
                 pass
 
             case _:
+                log.debug('The detected command is not among those available to the application.')
                 log.error('Unknown command!')
 
     else:
