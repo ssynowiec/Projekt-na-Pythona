@@ -7,16 +7,16 @@ type BookDetailsProps = {
 
 type DetailBook = {
 	name: string;
-	value: string;
+	value: string | number;
 };
 
 export const BookDetails = ({ book }: BookDetailsProps) => {
 	const bookDetails: DetailBook[] = [
 		{ name: 'Full title', value: book.title },
 		{ name: 'Author', value: book.author },
-		{ name: 'Number of pages', value: book.pages },
-		{ name: 'Date of publication', value: book.publicationDate },
-		{ name: 'Publishing house', value: book.publishingHouse },
+		{ name: 'Number of pages', value: book.number_of_pages },
+		{ name: 'Date of publication', value: book.publication_date },
+		{ name: 'Publishing house', value: book.publisher },
 	];
 
 	return (

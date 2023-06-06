@@ -14,7 +14,7 @@ def api_get_books():
 @app.route('/api/book/<int:_id>', methods=['GET'])
 @token_required
 def api_get_book(_id: int):
-    return jsonify(Book.get_by_id(_id))
+    return jsonify(Book.get_with_details(_id))
 
 
 @app.route('/api/book/new', methods=['POST'])

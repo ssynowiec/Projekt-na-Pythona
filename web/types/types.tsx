@@ -1,8 +1,15 @@
 type Book = {
 	id: number;
-	title: string;
 	author: string;
-	description: string;
+	publisher: number;
+	title: string;
+	description?: string;
+	publication_date: string;
+	genre: string;
+	is_available: string;
+	number_of_pages: number;
+	cover_image: string;
+	ISBN: string;
 };
 
 type NavLink = {

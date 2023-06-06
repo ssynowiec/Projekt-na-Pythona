@@ -1,6 +1,6 @@
 type BookDetailElementProps = {
 	name: string;
-	value: string;
+	value: string | number;
 };
 
 export const BookDetailElement = ({ name, value }: BookDetailElementProps) => {
