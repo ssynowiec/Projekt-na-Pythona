@@ -58,7 +58,9 @@ class ServerConfig:
             'TESTING': False,
             'TRAP_BAD_REQUEST_ERRORS': False,
             'TRAP_HTTP_EXCEPTIONS': False,
-            'USE_X_SENDFILE': False
+            'USE_X_SENDFILE': False,
+            'DATABASE_PATH': '',
+            'SCHEMA_PATH': ''
         }
         cls.__serverInfo = ServerInfo(defaultConfig)
 
