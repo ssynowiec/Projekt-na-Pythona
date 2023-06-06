@@ -5,7 +5,7 @@ from src import app
 from src.api.functions.reader import Reader
 
 
-@app.route('/api/login', methods=['POST'])
+@app.route('/api/auth/login', methods=['POST'])
 @token_required
 def api_login_user():
     data = request.get_json()
@@ -13,3 +13,13 @@ def api_login_user():
     password = data['password']
     user = Reader(login=login, password=password)
     return jsonify(user.__login__())
+
+
+@app.route('/api/auth/logout', methods=['POST'])
+@token_required
+def api_login_user():
+    data = request.get_json()
+    login = data['login']
+    password = data['password']
+    user = Reader(login=login, password=password)
+    return jsonify(user.__logout__())

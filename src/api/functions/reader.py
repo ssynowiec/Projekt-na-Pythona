@@ -22,24 +22,24 @@ class Reader(DatabaseObject):
 
     def __login__(self):
         table_name = type(self).__name__.lower()
-        query = f"SELECT * FROM {table_name}, login_data WHERE reader.login = login_data.login AND reader.login = ?"
+        query = f"SELECT * FROM {table_name}, login_data WHERE reader.login = login_data.login AND reader.login = ? OR login_data.email = ?"
 
         try:
             conn = DbConnection().__open__()
 
             conn.row_factory = sqlite3.Row
             cursor = conn.cursor()
-            cursor.execute(query, (self.login,))
+            cursor.execute(query, (self.login, self.login))
 
             row = cursor.fetchone()
 
             if row is None:
-                return {"message": "User not found"}, 401
+                return {"errors": {"email": "Invalid login or email"}}
 
             if row['password'] != self.password:
-                return {"message": "Incorrect password"}
+                return {"errors": {"password": "Invalid password"}}
 
-            return True
+            return {"message": "Działa"}
 
         except Exception as e:
             print(f"Error getting object from database: {str(e)}")
@@ -47,6 +47,9 @@ class Reader(DatabaseObject):
 
         finally:
             DbConnection().__close__()
+
+    def __logout__(self):
+        pass
 
     def get_by_name(self):
         table_name = type(self).__name__.lower()
