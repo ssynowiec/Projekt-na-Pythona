@@ -15,9 +15,6 @@ class SQLite:
 
     @classmethod
     def __init__(cls):
-        log.info('Creating a database...')
-        log.debug(f"Creating a database named: {app.config['DATABASE_NAME']}")
-
         cls.__conn = sql.connect(app.config['DATABASE_PATH'] + app.config['DATABASE_NAME'])
         cls.__cursor = cls.__conn.cursor()
         cls.__schemaDir = app.config['SCHEMA_PATH']
@@ -90,7 +87,7 @@ class SQLite:
         if infoQuery["type_query"] == 'select':
             fetchedQuery = cls.__fetchData(_fetchType, _howManyFetch)
 
-            fetchedQuery = cls.__cursor.fetchall()
+            log.info('Returning data from the database...')
             log.debug(f"The following data has been fetched from the database: {fetchedQuery}")
 
             return fetchedQuery
@@ -103,17 +100,28 @@ class SQLite:
             with open(cls.__schemaDir + _fileName) as schemaFile:
                 cls.__conn.executescript(schemaFile.read())
 
-            log.success(f'Table was added successfully -> {_fileName}')
+            if _fileName == 'clear_database.schema.sql':
+                log.success(f'The database has been cleared -> {_fileName}')
+
+            else:
+                log.success(f'Table was added successfully -> {_fileName}')
 
         except Exception as e:
-            log.error(f'Failure to add table -> {_fileName}', {
-                'Problem': e.__str__()
-            })
+            if _fileName == 'clear_database.schema.sql':
+                log.warning(f'The database was not cleaned up successfully! -> {_fileName}')
+                log.warning('Errors are possible!')
+
+            else:
+                log.error(f'Failure to add table -> {_fileName}', {
+                    'Problem': e.__str__()
+                })
 
     @classmethod
     def load_all_exist_schema(cls) -> None:
         log.info('Loading a list of schema files...')
         fileList = FileSystem.get_sort_file_list(cls.__schemaDir)
+
+        fileList.remove('clear_database.schema.sql')
 
         for file in fileList:
             cls.load_schema(file)
