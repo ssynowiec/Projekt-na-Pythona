@@ -40,3 +40,5 @@ if __name__ == '__main__':
     else:
         log.info('Initializing the server...')
         server.start()
+
+    log.info('Exiting the program...')
