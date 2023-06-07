@@ -29,7 +29,7 @@ export const useLogin = () => {
 			login: data.login,
 			password: data.password,
 			// redirect: false,
-			callbackUrl: '/dashboard',
+			callbackUrl: '/your-profile',
 		});
 
 		console.log(res);

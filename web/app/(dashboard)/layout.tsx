@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
 import { ProtectedPage } from '@/components/protectedPage/protectedPage';
+import { Header } from '@/components/header/header';
+import { Footer } from '@/components/footer/footer';
 
 export const metadata = {
 	title: 'Library',
@@ -13,7 +15,9 @@ type LayoutProps = {
 const DashboardLayout = ({ children }: LayoutProps) => {
 	return (
 		<ProtectedPage>
+			<Header />
 			<main className="h-screen">{children}</main>
+			<Footer />
 		</ProtectedPage>
 	);
 };
