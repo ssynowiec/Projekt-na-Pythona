@@ -19,6 +19,7 @@ import {
 } from '@heroicons/react/20/solid';
 import { Logo } from '@/components/logo/logo';
 import { Link } from '@/components/link/link';
+import { signOut, useSession } from 'next-auth/react';
 
 const products = [
 	{
@@ -64,6 +65,11 @@ const navigation: NavLink[] = [
 
 export const Header = () => {
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+	const { status } = useSession();
+
+	const handleSignOut = async (e) => {
+		await signOut();
+	};
 
 	return (
 		<header className="bg-white">
@@ -161,9 +167,14 @@ export const Header = () => {
 					))}
 				</Popover.Group>
 				<div className="hidden lg:flex lg:flex-1 lg:justify-end">
-					<Link href="/login">
-						Log in <span aria-hidden="true">&rarr;</span>
-					</Link>
+					{status === 'unauthenticated' && (
+						<Link href="/login">
+							Log in <span aria-hidden="true">&rarr;</span>
+						</Link>
+					)}
+					{status === 'authenticated' && (
+						<Link href="/dashboard">Dashboard</Link>
+					)}
 				</div>
 			</nav>
 			<Dialog
@@ -230,12 +241,17 @@ export const Header = () => {
 								))}
 							</div>
 							<div className="py-6">
-								<a
-									href="/login"
-									className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-								>
-									Log in
-								</a>
+								{status === 'unauthenticated' && (
+									<Link href="/login">
+										Log in <span aria-hidden="true">&rarr;</span>
+									</Link>
+								)}
+								{status === 'authenticated' && (
+									<>
+										<Link href="/dashboard">Dashboard</Link>
+										<button onClick={handleSignOut}>Log out</button>
+									</>
+								)}
 							</div>
 						</div>
 					</div>
