@@ -17,7 +17,7 @@ def api_login_user():
 
 @app.route('/api/auth/logout', methods=['POST'])
 @token_required
-def api_login_user():
+def api_logout_user():
     data = request.get_json()
     login = data['login']
     password = data['password']

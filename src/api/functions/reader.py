@@ -34,12 +34,12 @@ class Reader(DatabaseObject):
             row = cursor.fetchone()
 
             if row is None:
-                return {"errors": {"email": "Invalid login or email"}}
+                return {"error": "Invalid login or email"}
 
             if row['password'] != self.password:
-                return {"errors": {"password": "Invalid password"}}
+                return {"error": "Invalid password"}
 
-            return {"message": "Działa"}
+            return dict(row)
 
         except Exception as e:
             print(f"Error getting object from database: {str(e)}")
