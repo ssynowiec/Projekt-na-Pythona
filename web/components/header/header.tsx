@@ -17,6 +17,8 @@ import {
 	PhoneIcon,
 	PlayCircleIcon,
 } from '@heroicons/react/20/solid';
+import { Logo } from '@/components/logo/logo';
+import { Link } from '@/components/link/link';
 
 const products = [
 	{
@@ -55,7 +57,10 @@ const callsToAction = [
 	{ name: 'Contact sales', href: '#', icon: PhoneIcon },
 ];
 
-const navigation = [{ name: 'Books', href: '/books' }];
+const navigation: NavLink[] = [
+	{ label: 'Books', href: '/books' },
+	{ label: 'Contact', href: '/contact' },
+];
 
 export const Header = () => {
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -69,7 +74,7 @@ export const Header = () => {
 				<div className="flex lg:flex-1">
 					<a href="/" className="-m-1.5 p-1.5">
 						<span className="sr-only">Your Company</span>
-						<img className="h-8 w-auto" src="./logo.png" alt="" />
+						<Logo />
 					</a>
 				</div>
 				<div className="flex lg:hidden">
@@ -147,21 +152,18 @@ export const Header = () => {
 					</Popover>
 					{navigation.map((link) => (
 						<a
-							key={link.name}
+							key={link.label}
 							href={link.href}
 							className="text-sm font-semibold leading-6 text-gray-900"
 						>
-							{link.name}
+							{link.label}
 						</a>
 					))}
 				</Popover.Group>
 				<div className="hidden lg:flex lg:flex-1 lg:justify-end">
-					<a
-						href="/login"
-						className="text-sm font-semibold leading-6 text-gray-900"
-					>
+					<Link href="/login">
 						Log in <span aria-hidden="true">&rarr;</span>
-					</a>
+					</Link>
 				</div>
 			</nav>
 			<Dialog
@@ -175,11 +177,7 @@ export const Header = () => {
 					<div className="flex items-center justify-between">
 						<a href="#" className="-m-1.5 p-1.5">
 							<span className="sr-only">Your Company</span>
-							<img
-								className="h-8 w-auto"
-								src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-								alt=""
-							/>
+							<Logo />
 						</a>
 						<button
 							type="button"
@@ -223,11 +221,11 @@ export const Header = () => {
 								</Disclosure>
 								{navigation.map((link) => (
 									<a
-										key={link.name}
+										key={link.label}
 										href={link.href}
 										className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
 									>
-										{link.name}
+										{link.label}
 									</a>
 								))}
 							</div>

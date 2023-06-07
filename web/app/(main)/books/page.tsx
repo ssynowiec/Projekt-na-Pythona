@@ -1,14 +1,17 @@
 import { Container } from '@/components/container/container';
+import { Link } from '@/components/link/link';
+import { Heading } from '@/components/heading/heading';
 
 const getData = async () => {
 	try {
-		const res = await fetch(`${process.env.API_URL}/books`, {
+		const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/books`, {
 			method: 'GET',
 			headers: {
-				Authorization: `Bearer ${process.env.API_KEY}`,
+				Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
 				'Content-Type': 'application/json',
 			},
 			redirect: 'follow',
+			cache: 'no-cache',
 		});
 
 		if (!res.ok) {
@@ -21,23 +24,23 @@ const getData = async () => {
 	}
 };
 
-const Page = async () => {
+const BooksPage = async () => {
 	const data: Book[] = await getData();
 
 	return (
-		<div>
-			<Container>
-				<h1>Book List</h1>
-				<ul>
-					{data.map((book) => (
-						<li key={book.id}>
-							<a>{book.title}</a>
-						</li>
-					))}
-				</ul>
-			</Container>
-		</div>
+		<Container>
+			<Heading tag="h1" size="large">
+				Book list
+			</Heading>
+			<ul>
+				{data.map((book) => (
+					<li key={book.id}>
+						<Link href={`/book/${book.id}`}>{book.title}</Link>
+					</li>
+				))}
+			</ul>
+		</Container>
 	);
 };
 
-export default Page;
+export default BooksPage;
