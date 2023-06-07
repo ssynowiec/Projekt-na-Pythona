@@ -14,10 +14,11 @@ class SQLite:
     __queryDir: str
 
     @classmethod
-    def __init__(cls, _db: str):
+    def __init__(cls):
         log.info('Creating a database...')
+        log.debug(f"Creating a database named: {app.config['DATABASE_NAME']}")
 
-        cls.__conn = sql.connect(app.config['DATABASE_PATH'] + _db)
+        cls.__conn = sql.connect(app.config['DATABASE_PATH'] + app.config['DATABASE_NAME'])
         cls.__cursor = cls.__conn.cursor()
         cls.__schemaDir = app.config['SCHEMA_PATH']
         cls.__queryDir = app.config['QUERY_INIT_PATH']
@@ -26,7 +27,7 @@ class SQLite:
         # cls.execute('PRAGMA foreign_keys = 1')
 
     @classmethod
-    def __get_info_query(cls, _query: str):
+    def __get_info_query(cls, _query: str) -> dict:
         info: dict = dict()
         split_query: list[str] = _query.lower().split(' ')
 
@@ -50,18 +51,34 @@ class SQLite:
         return info
 
     @classmethod
-    def close(cls) -> None:
-        log.info('Closing the database...')
-        cls.__conn.close()
+    def __fetchData(cls, _fetchType: any, _howMany: int) -> any:
+        match _fetchType:
+            case 'all':
+                return cls.__cursor.fetchall()
+            case 'one':
+                return cls.__cursor.fetchone()
+            case 'many':
+                return cls.__cursor.fetchmany(_howMany)
+
+            case _:
+                log.error(f'Selected fetching type is not available! -> {_fetchType}')
 
     @classmethod
-    def execute(cls, _query: str, _params: tuple = ()) -> list:
+    def close(cls) -> None:
+        if cls.__conn:
+            log.info('Closing the database...')
+            cls.__conn.close()
+
+    @classmethod
+    def execute(cls, _query: str, _params: tuple = (), _fetchType: any = 'all', _howManyFetch: int = 1) -> list | None:
         infoQuery: dict = cls.__get_info_query(_query)
+        fetchedQuery: any
 
         log.info(f'Executing a query type: [ {infoQuery["type_query"].upper()} ] for [ {infoQuery["table"].upper()} ]')
 
         try:
             cls.__cursor.execute(_query, _params)
+            cls.commit()
 
         except Exception as e:
             log.error('There was a problem executing the query!', {
@@ -70,7 +87,15 @@ class SQLite:
                 'Problem': e.__str__()
             })
 
-        return cls.__cursor.fetchall()
+        if infoQuery["type_query"] == 'select':
+            fetchedQuery = cls.__fetchData(_fetchType, _howManyFetch)
+
+            fetchedQuery = cls.__cursor.fetchall()
+            log.debug(f"The following data has been fetched from the database: {fetchedQuery}")
+
+            return fetchedQuery
+
+        return None
 
     @classmethod
     def load_schema(cls, _fileName: str) -> None:
@@ -94,7 +119,7 @@ class SQLite:
             cls.load_schema(file)
 
     @classmethod
-    def load_query_init(cls, _fileName: str):
+    def load_query_init(cls, _fileName: str) -> None:
         try:
             with open(cls.__queryDir + _fileName) as queryFile:
                 cls.__conn.executescript(queryFile.read())
@@ -115,5 +140,5 @@ class SQLite:
             cls.load_query_init(file)
 
     @classmethod
-    def commit(cls):
+    def commit(cls) -> None:
         cls.__conn.commit()

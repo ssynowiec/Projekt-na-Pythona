@@ -12,21 +12,19 @@ class Init_db:
 
     @classmethod
     def __init__(cls):
-        cls.sql = SQLite('database.db')
+        cls.sql = SQLite()
 
-        cls.__load_schema()
-        cls.__insert_data()
-
-        cls.sql.commit()
+        cls.__load_init_schema()
+        cls.__load_init_data()
 
         cls.sql.close()
 
     @classmethod
-    def __load_schema(cls):
+    def __load_init_schema(cls):
         cls.sql.load_all_exist_schema()
 
     @classmethod
-    def __insert_data(cls):
+    def __load_init_data(cls):
         cls.sql.load_all_exist_query()
 
         log.success('All data has been successfully placed in the tables!')
