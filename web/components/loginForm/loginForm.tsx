@@ -17,14 +17,14 @@ export const LoginForm = () => {
 		>
 			<Input
 				label="Email address or login"
-				id="email"
+				id="login"
 				type="text"
 				autoComplete="email"
 				required={true}
+				error={formState.errors.login?.message}
 				placeholder="jan.kowalski@example.com"
-				{...register('email', { required: true })}
+				{...register('login', { required: true })}
 			/>
-			{/*{errors.email && <span>This field is required</span>}*/}
 
 			<div>
 				<div className="flex items-center justify-between">

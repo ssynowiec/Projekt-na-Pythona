@@ -1,4 +1,5 @@
 import { ChangeEvent, forwardRef } from 'react';
+import clsx from 'clsx';
 
 type InputProps = {
 	label: string;
@@ -8,6 +9,7 @@ type InputProps = {
 	autoComplete?: string;
 	required: boolean;
 	placeholder?: string;
+	error?: string;
 	onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -21,6 +23,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 			autoComplete,
 			required,
 			placeholder,
+			error,
 			onChange,
 			...rest
 		},
@@ -45,9 +48,17 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 						onChange={onChange}
 						name={name}
 						{...rest}
-						className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+						className={clsx(
+							'block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6',
+							error && 'ring-2 ring-red-500',
+						)}
 					/>
 				</div>
+				{error && (
+					<p className="mt-1 text-sm text-red-600" id="email-error">
+						{error}
+					</p>
+				)}
 			</div>
 		);
 	},

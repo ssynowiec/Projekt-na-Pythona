@@ -1,6 +1,7 @@
 import './globals.css';
 import { Inter } from 'next/font/google';
 import type { ReactNode } from 'react';
+import { SessionProvider } from '@/components/provider/sessionProvider';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -16,7 +17,9 @@ type LayoutProps = {
 export default function RootLayout({ children }: LayoutProps) {
 	return (
 		<html lang="en">
-			<body className={inter.className}>{children}</body>
+			<body className={inter.className}>
+				<SessionProvider>{children}</SessionProvider>
+			</body>
 		</html>
 	);
 }

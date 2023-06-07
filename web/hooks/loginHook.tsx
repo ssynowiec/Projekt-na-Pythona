@@ -1,16 +1,16 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import * as process from 'process';
+import { signIn } from 'next-auth/react';
 
 type Inputs = {
-	email: string;
+	login: string;
 	password: string;
 };
 
 const schema = yup.object({
-	email: yup.string().required(),
-	password: yup.string().required(),
+	login: yup.string().required('Email or login is required'),
+	password: yup.string().required('Password is required'),
 });
 
 export const useLogin = () => {
@@ -19,30 +19,30 @@ export const useLogin = () => {
 		handleSubmit,
 		watch,
 		formState: { errors },
+		setError,
 	} = useForm<Inputs>({
 		resolver: yupResolver(schema),
 	});
 
 	const onSubmit: SubmitHandler<Inputs> = async (data) => {
-		try {
-			const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
-				method: 'POST',
-				headers: {
-					Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_KEY}`,
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({
-					login: data.email,
-					password: data.password,
-				}),
-				redirect: 'follow',
-				cache: 'no-cache',
-			});
-			const json = await res.json();
-			console.log(json.message);
-		} catch (error) {
-			console.log(error);
+		const res = await signIn('credentials', {
+			login: data.login,
+			password: data.password,
+			// redirect: false,
+			callbackUrl: '/dashboard',
+		});
+
+		console.log(res);
+
+		if (res?.error) {
+			if (res.error === 'Invalid login or email') {
+				setError('login', { message: res.error });
+			} else if (res.error === 'Incorrect password') {
+				setError('password', { message: res.error });
+			}
 		}
+
+		return res;
 	};
 
 	return {
