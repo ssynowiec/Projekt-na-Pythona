@@ -1,5 +1,3 @@
-DROP TABLE IF EXISTS reader;
-
 CREATE TABLE reader (
     card_number VARCHAR(10) NOT NULL PRIMARY KEY,
     name VARCHAR(30) NOT NULL,
