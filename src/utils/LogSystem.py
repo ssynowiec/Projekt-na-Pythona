@@ -4,7 +4,7 @@
 # Thanks to this file, it is easier to understand errors in the software.
 
 import datetime
-from simple_chalk import red, green, yellow, blue, cyan
+from simple_chalk import red, green, yellow, blue, cyan, magenta
 from src.utils.FileSystem import FileSystem
 from src import app
 
@@ -48,9 +48,31 @@ class LogSystem:
         cls.__pathToDir = pathTmp
 
     @classmethod
-    def __print_to_file(cls, _text: str, _type: str):
-        textToSave: str = str()
+    def __prepare_text(cls, _text: str) -> str:
+        specialSymbols: list[str] = ['->', '[']
+        textList: list[str] = _text.split(' ')
+        original: str
 
+        for symbol in specialSymbols:
+            try:
+                match symbol:
+                    case '->':
+                        index_start: int = textList.index(symbol) + 1
+                        original = ' '.join(textList[index_start:len(textList)])
+                        return _text.replace(original, magenta(original))
+
+                    case '[':
+                        original = textList[textList.index(symbol) + 1]
+                        return _text.replace(original, magenta(original))
+
+            except ValueError:
+                continue
+
+        return _text
+
+
+    @classmethod
+    def __print_to_file(cls, _text: str, _type: str):
         match _type.lower():
             case 'success':
                 textToSave = f'{cls.__date_log()} [SUCCESS] {_text}\n'
@@ -70,22 +92,24 @@ class LogSystem:
 
     @classmethod
     def __print_to_console(cls, _text: str, _type: str, _params: dict={}):
+        preparedText: str = cls.__prepare_text(_text)
+
         match _type.lower():
             case 'success':
-                print(green.bold('[SUCCESS]'), green(_text))
+                print(green.bold('[SUCCESS]'), preparedText)
 
             case 'info':
-                print(blue.bold('[INFO]'), blue(_text))
+                print(blue.bold('[INFO]'), preparedText)
 
             case 'warning':
-                print(yellow.bold('[WARNING]'), yellow(_text))
+                print(yellow.bold('[WARNING]'), preparedText)
 
             case 'debug':
-                print(cyan.bold('[DEBUG]'), cyan(_text))
+                print(cyan.bold('[DEBUG]'), preparedText)
 
             case 'error':
                 if len(_params) == 0 :
-                    print(red.bold('[ERROR]'), red(_text))
+                    print(red.bold('[ERROR]'), preparedText)
                 else:
                     print(red.bold('[ERROR]'), red.bold(f'┌ {_text}'))
                     index: int = 1
