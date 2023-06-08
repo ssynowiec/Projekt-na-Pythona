@@ -1,6 +1,7 @@
 import {SubmitHandler, useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
+import * as process from "process";
 
 type Inputs = {
     currentPassword: string;
@@ -26,7 +27,7 @@ export const useChangePassword = () => {
     });
 
     const onSubmit: SubmitHandler<Inputs> = async (data) => {
-        const res = await fetch('/api/auth/change-password', {});
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/change-password`, {});
 
         console.log(res);
 
