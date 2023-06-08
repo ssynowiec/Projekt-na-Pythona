@@ -17,7 +17,7 @@ type LayoutProps = {
 const navLinks: NavLink[] = [
     {href: '/your-profile', label: 'Your data'},
     {href: '/change-password', label: 'Change password'},
-    {href: '/my-renatls', label: 'My rentals'},
+    {href: '/my-rentals', label: 'My rentals'},
     {href: '/my-reservations', label: 'My reservations'},
     {href: '/settings', label: 'Settings'},
     {href: '/logout', label: 'Logout'},
