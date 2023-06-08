@@ -14,7 +14,7 @@ app: Flask = Flask(__name__,
                    template_folder='templates',
                    static_folder='public')
 
-CORS(app, origins=['http://localhost:3000'])
+CORS(app)
 
 ###########################################################################
 # Server log system.

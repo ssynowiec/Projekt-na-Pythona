@@ -39,7 +39,7 @@ const DashboardPage = () => {
                 <Input label='Your address' id='street' name='street' type='text' required={true}
                        value={data?.user?.address_street} disabled={true}/>
                 <div className='flex flex-col md:flex-row justify-between'>
-                    <Input label='Postal code' id='phone' name='phone' type='tel' required={true}
+                    <Input label='Postal code' id='postal_code' name='postal_code' type='tel' required={true}
                            value={data?.user?.postal_code} disabled={true}/>
                     <Input label='City' id='city' name='city' type='text' required={true}
                            value={data?.user?.city} disabled={true}/>

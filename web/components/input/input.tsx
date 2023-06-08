@@ -12,6 +12,7 @@ type InputProps = {
     error?: string;
     disabled?: boolean;
     value?: string;
+    markAsRequired?: boolean;
     onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -28,6 +29,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             error,
             disabled = false,
             value,
+            markAsRequired = false,
             onChange,
             ...rest
         },
@@ -39,7 +41,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                     htmlFor={id}
                     className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                    {label}
+                    {label} {markAsRequired && <span className="text-red-500">*</span>}
                 </label>
                 <div className="my-2">
                     <input

@@ -19,6 +19,8 @@ class Reader(DatabaseObject):
         self.login = login
         self.email = kwargs.get('email')
         self.password = kwargs.get('password')
+        self.new_password = kwargs.get('new_password')
+        self.confirm_password = kwargs.get('confirm_password')
 
     def __login__(self):
         table_name = type(self).__name__.lower()
@@ -65,9 +67,51 @@ class Reader(DatabaseObject):
             row = cursor.fetchone()
 
             if row is None:
-                return {"message": "User not found"}, 401
+                return {"error": "User not found"}, 401
 
             return dict(row)
+
+        except Exception as e:
+            print(f"Error getting object from database: {str(e)}")
+            return {"error": str(e)}
+
+        finally:
+            DbConnection().__close__()
+
+    def change_password(self):
+        old_password = f"SELECT password FROM login_data WHERE login = ?"
+
+        try:
+            conn = DbConnection().__open__()
+
+            conn.row_factory = sqlite3.Row
+            cursor = conn.cursor()
+            cursor.execute(old_password, (self.login,))
+
+            row = cursor.fetchone()
+
+            if row is None:
+                return {"error": "User not found"}, 401
+
+            if self.password == '' or self.new_password == '' or self.confirm_password == '':
+                return {"error": "Please fill all fields"}
+
+            if row['password'] != self.password:
+                return {"error": "Invalid old password"}
+            elif row['password'] == self.new_password:
+                return {"error": "New password cannot be the same as the old one"}
+            elif self.new_password != self.confirm_password:
+                return {"error": "Passwords do not match"}
+            elif len(self.new_password) < 8:
+                return {"error": "Password must be at least 8 characters long"}
+            elif len(self.new_password) > 50:
+                return {"error": "Password must be at most 50 characters"}
+            else:
+                query = f"UPDATE login_data SET password = ? WHERE login = ?"
+                cursor.execute(query, (self.new_password, self.login))
+                conn.commit()
+
+            return {"message": "Password changed successfully"}
 
         except Exception as e:
             print(f"Error getting object from database: {str(e)}")
