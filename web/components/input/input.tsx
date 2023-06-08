@@ -41,7 +41,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
                 >
                     {label}
                 </label>
-                <div className="mt-2">
+                <div className="my-2">
                     <input
                         ref={ref}
                         id={id}
