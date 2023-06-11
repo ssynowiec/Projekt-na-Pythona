@@ -28,24 +28,29 @@ class SQLite:
         info: dict = dict()
         split_query: list[str] = _query.lower().split(' ')
 
-        info.setdefault('type_query', split_query[0])
+        try:
+            info.setdefault('type_query', split_query[0])
 
-        match split_query[0]:
-            case 'select':
-                info.setdefault('table', split_query[split_query.index('from') + 1])
-            case 'insert':
-                info.setdefault('table', split_query[split_query.index('into') + 1])
-            case 'update':
-                info.setdefault('table', split_query[1])
-            case 'delete':
-                info.setdefault('table', split_query[split_query.index('from') + 1])
-            case 'pragma':
-                info.setdefault('table', 'DATABASE')
+            match split_query[0]:
+                case 'select':
+                    info.setdefault('table', split_query[split_query.index('from') + 1])
+                case 'insert':
+                    info.setdefault('table', split_query[split_query.index('into') + 1])
+                case 'update':
+                    info.setdefault('table', split_query[1])
+                case 'delete':
+                    info.setdefault('table', split_query[split_query.index('from') + 1])
+                case 'pragma':
+                    info.setdefault('table', 'DATABASE')
 
-            case _:
-                log.warning('Query type not yet included!')
+                case _:
+                    log.warning('Query type not yet included!')
 
-        return info
+            return info
+
+        except ValueError:
+            log.warning('Could not determine query type!')
+            return
 
     @classmethod
     def __fetchData(cls, _fetchType: any, _howMany: int) -> any:
@@ -71,7 +76,9 @@ class SQLite:
         infoQuery: dict = cls.__get_info_query(_query)
         fetchedQuery: any
 
-        log.info(f'Executing a query type: [ {infoQuery["type_query"].upper()} ] for [ {infoQuery["table"].upper()} ]')
+        if infoQuery:
+            log.info(
+                f'Executing a query type: [ {infoQuery["type_query"].upper()} ] for [ {infoQuery["table"].upper()} ]')
 
         try:
             cls.__cursor.execute(_query, _params)
@@ -84,13 +91,14 @@ class SQLite:
                 'Problem': e.__str__()
             })
 
-        if infoQuery["type_query"] == 'select':
-            fetchedQuery = cls.__fetchData(_fetchType, _howManyFetch)
+        if infoQuery:
+            if infoQuery["type_query"] == 'select':
+                fetchedQuery = cls.__fetchData(_fetchType, _howManyFetch)
 
-            log.info('Returning data from the database...')
-            log.debug(f"The following data has been fetched from the database: {fetchedQuery}")
+                log.info('Returning data from the database...')
+                log.debug(f"The following data has been fetched from the database: {fetchedQuery}")
 
-            return fetchedQuery
+                return fetchedQuery
 
         return None
 
