@@ -71,7 +71,7 @@ class TEST_SQLite:
         assert exception == cls.__sql.execute(query, _fetchType='many', _howManyFetch=1)
 
     @classmethod
-    def CASE_execute_raise_SQL_keywords(cls):
+    def CASE_execute_raise_SQL_syntax(cls):
         query: str = 'SELECT name FR_ERR_OM author'
 
         with pytest.raises(Exception):
