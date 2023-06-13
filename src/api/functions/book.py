@@ -5,7 +5,7 @@ from src.database.db_object import DatabaseObject
 
 
 class Book(DatabaseObject):
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: dict):
         self.id = kwargs.get('id')
         self.author_id = kwargs.get('author_id')
         self.publisher_id = kwargs.get('publisher_id')
@@ -19,7 +19,7 @@ class Book(DatabaseObject):
         self.ISBN = kwargs.get('ISBN')
 
     @classmethod
-    def get_with_details(cls, _id: int):
+    def get_with_details(cls, _id: int) -> dict:
         book = Book.get_by_id(_id)
         query = "SELECT author.name || ' ' || author.surname AS author, publisher.name as publisher FROM author, " \
                 "book, publisher WHERE book.id = ? AND author.id = book.author_id AND publisher.id = book.publisher_id"

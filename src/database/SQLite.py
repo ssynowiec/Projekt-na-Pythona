@@ -24,7 +24,7 @@ class SQLite:
         # cls.execute('PRAGMA foreign_keys = 1')
 
     @classmethod
-    def __get_info_query(cls, _query: str) -> dict:
+    def __get_info_query(cls, _query: str) -> dict | None:
         info: dict = dict()
         split_query: list[str] = _query.lower().split(' ')
 
@@ -50,7 +50,7 @@ class SQLite:
 
         except ValueError:
             log.warning('Could not determine query type!')
-            return
+            return None
 
     @classmethod
     def __fetchData(cls, _fetchType: any, _howMany: int) -> any:

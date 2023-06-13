@@ -33,9 +33,9 @@ class Init_db:
         cls.__sql.close()
 
     @classmethod
-    def __load_init_schema(cls):
+    def __load_init_schema(cls) -> None:
         cls.__sql.load_all_exist_schema()
 
     @classmethod
-    def __load_init_data(cls):
+    def __load_init_data(cls) -> None:
         cls.__sql.load_all_exist_query()
