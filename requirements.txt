@@ -15,3 +15,4 @@ multipledispatch>=0.6.0
 pythonlangutil==0.1
 simple_chalk>=0.1.0
 flask_cors==3.0.10
+pytest==7.3.1
