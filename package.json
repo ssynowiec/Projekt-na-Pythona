@@ -21,6 +21,7 @@
     "dev": "concurrently \"yarn init-db\" \"yarn start-backend\" \"yarn start-frontend\"",
     "start-backend": "python3 main.py",
     "start-frontend": "cd web && yarn dev",
+    "start-tests": "python3 main.py -init-tests",
     "init-db": "python3 main.py -init-db",
     "init-proj": "pip3 install -r requirements.txt && yarn install && cd web && yarn install"
   },

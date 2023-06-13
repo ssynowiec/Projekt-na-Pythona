@@ -10,6 +10,7 @@
 #   goal of the project is to test knowledge at the intermediate level.
 #
 import sys
+import pytest
 from src.server.Server import Server
 from migrations.Init_db import Init_db
 from src import log
@@ -30,8 +31,7 @@ if __name__ == '__main__':
             case '-init-tests':
                 log.debug('Console command loaded [ -init-tests ]')
                 log.info('Initializing the tests...')
-                # TODO: Uruchamianie testów!
-                pass
+                pytest.main([])
 
             case _:
                 log.debug('The detected command is not among those available to the application.')

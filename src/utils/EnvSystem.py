@@ -28,7 +28,7 @@ class EnvSystem:
         cls.__fileName = _fileName
         cls.__path = Path('config/' + _fileName)
 
-        if find_dotenv(ParseSystem.to_string(cls.__path)):
+        if find_dotenv((cls.__path.__str__())):
             cls.__load_data()
 
     @classmethod
@@ -43,7 +43,7 @@ class EnvSystem:
         Return:
              The method returns <True> when the file exists.
         """
-        if find_dotenv(ParseSystem.to_string(cls.__path)):
+        if find_dotenv(cls.__path.__str__()):
             return True
 
         return False

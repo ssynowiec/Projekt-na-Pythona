@@ -33,6 +33,7 @@ class ParseSystem:
             # Rejects spelling errors
             try:
                 return eval(_val)
+
             except _:
                 return _val
 
