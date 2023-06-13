@@ -4,7 +4,7 @@ from src.database.db_connection import DbConnection
 
 
 class DatabaseObject:
-    def add(self):
+    def add(self) -> dict:
         table_name = self.__class__.__name__.lower()
         attributes = vars(self)
         keys = list(attributes.keys())
@@ -31,7 +31,7 @@ class DatabaseObject:
             DbConnection().__close__()
 
     @classmethod
-    def get_all(cls):
+    def get_all(cls) -> list | bool:
         table_name = cls.__name__.lower()
         query = f"SELECT * FROM {table_name}"
 
@@ -54,7 +54,7 @@ class DatabaseObject:
             DbConnection().__close__()
 
     @classmethod
-    def get_by_id(cls, _id):
+    def get_by_id(cls, _id: int) -> dict | bool:
         table_name = cls.__name__.lower()
         query = f"SELECT * FROM {table_name} WHERE id = ?"
 

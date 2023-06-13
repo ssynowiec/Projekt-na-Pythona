@@ -5,7 +5,7 @@ from src.database.db_object import DatabaseObject
 
 
 class Reader(DatabaseObject):
-    def __init__(self, login: str, **kwargs):
+    def __init__(self, login: str, **kwargs: dict):
         self.card_number = kwargs.get('card_number')
         self.name = kwargs.get('name')
         self.surname = kwargs.get('surname')
@@ -22,9 +22,10 @@ class Reader(DatabaseObject):
         self.new_password = kwargs.get('new_password')
         self.confirm_password = kwargs.get('confirm_password')
 
-    def __login__(self):
+    def __login__(self) -> dict:
         table_name = type(self).__name__.lower()
-        query = f"SELECT * FROM {table_name}, login_data WHERE reader.login = login_data.login AND reader.login = ? OR login_data.email = ?"
+        query = f"SELECT * FROM {table_name}, " \
+                f"login_data WHERE reader.login = login_data.login AND reader.login = ? OR login_data.email = ?"
 
         try:
             conn = DbConnection().__open__()
@@ -50,10 +51,10 @@ class Reader(DatabaseObject):
         finally:
             DbConnection().__close__()
 
-    def __logout__(self):
+    def __logout__(self) -> None:
         pass
 
-    def get_by_name(self):
+    def get_by_name(self) -> dict | tuple:
         table_name = type(self).__name__.lower()
         query = f"SELECT * FROM {table_name} WHERE login = ?"
 
@@ -78,7 +79,7 @@ class Reader(DatabaseObject):
         finally:
             DbConnection().__close__()
 
-    def change_password(self):
+    def change_password(self) -> dict | tuple:
         old_password = f"SELECT password FROM login_data WHERE login = ?"
 
         try:

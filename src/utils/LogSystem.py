@@ -22,7 +22,7 @@ class LogSystem:
         cls.__print_separate_line()
 
     @classmethod
-    def __date_log(cls):
+    def __date_log(cls) -> str:
         now = datetime.datetime.now()
         return f'[ {now.year}-{now.month:02d}-{now.day:02d} {now.hour:02d}:{now.minute:02d}:{now.second:02d} ]'
 
@@ -70,9 +70,8 @@ class LogSystem:
 
         return _text
 
-
     @classmethod
-    def __print_to_file(cls, _text: str, _type: str):
+    def __print_to_file(cls, _text: str, _type: str) -> None:
         match _type.lower():
             case 'success':
                 textToSave = f'{cls.__date_log()} [SUCCESS] {_text}\n'
@@ -91,7 +90,10 @@ class LogSystem:
         FileSystem.write(cls.__pathToDir + cls.__fileName, textToSave)
 
     @classmethod
-    def __print_to_console(cls, _text: str, _type: str, _params: dict={}):
+    def __print_to_console(cls, _text: str, _type: str, _params: dict = None) -> None:
+        if _params is None:
+            _params = {}
+
         preparedText: str = cls.__prepare_text(_text)
 
         match _type.lower():
@@ -108,7 +110,7 @@ class LogSystem:
                 print(cyan.bold('[DEBUG]'), preparedText)
 
             case 'error':
-                if len(_params) == 0 :
+                if len(_params) == 0:
                     print(red.bold('[ERROR]'), preparedText)
                 else:
                     print(red.bold('[ERROR]'), red.bold(f'┌ {_text}'))
@@ -124,33 +126,35 @@ class LogSystem:
                         index += 1
 
     @classmethod
-    def __print_separate_line(cls):
-        cls.__print_to_file(f'{"="*90} \n', _type="SEPARATOR")
+    def __print_separate_line(cls) -> None:
+        cls.__print_to_file(f'{"=" * 90} \n', _type="SEPARATOR")
 
     @classmethod
-    def success(cls, _msg: str):
+    def success(cls, _msg: str) -> None:
         cls.__print_to_file(_msg, _type='success')
         cls.__print_to_console(_msg, _type='success')
 
     @classmethod
-    def info(cls, _msg: str):
+    def info(cls, _msg: str) -> None:
         cls.__print_to_file(_msg, _type='info')
         cls.__print_to_console(_msg, _type='info')
 
     @classmethod
-    def warning(cls, _msg: str):
+    def warning(cls, _msg: str) -> None:
         cls.__print_to_file(_msg, _type='warning')
         cls.__print_to_console(_msg, _type='warning')
 
     @classmethod
-    def error(cls, _msg: str, _params: dict={}):
+    def error(cls, _msg: str, _params: dict = None) -> None:
+        if _params is None:
+            _params = {}
+
         cls.__print_to_file(_msg, _type='error')
         cls.__print_to_console(_msg, _type='error', _params=_params)
 
     @classmethod
-    def debug(cls, _msg: str):
+    def debug(cls, _msg: str) -> None:
         if app.config['DEBUG'] is True:
             cls.__print_to_console(_msg, _type='debug')
 
         cls.__print_to_file(_msg, _type='debug')
-

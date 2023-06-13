@@ -47,7 +47,7 @@ class FileSystem:
         os.remove(_pathToFile)
 
     @staticmethod
-    def exist_file( _pathToFile) -> bool:
+    def exist_file(_pathToFile: str) -> bool:
         """
         A method that checks the existence of the specified file.
 
@@ -74,6 +74,6 @@ class FileSystem:
         return pathlib.Path(__file__).parent.parent.parent
 
     @staticmethod
-    def write(_filePath: str, _msg: str):
+    def write(_filePath: str, _msg: str) -> None:
         with open(_filePath, 'a') as file:
             file.write(_msg)

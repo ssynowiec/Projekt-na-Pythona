@@ -7,7 +7,7 @@ class ParseSystem:
     """The class responsible for safely changing the types of variables."""
     # A method that allows you to change the data type from string to any other.
     # Parameter values of type other than <str> will not change.
-    # The values themselves of the likes of [True, False, None] can be written in wrong and the algorithm i
+    # The values themselves of the likes of [True, False, None] can be written in wrong and the algorithm I
     # will be able to react accordingly anyway.
     @staticmethod
     def auto_parse(_val: any) -> any:
@@ -16,7 +16,7 @@ class ParseSystem:
         The returned type is based on the value of the variable.
 
         Parameters:
-            _val (any): The value to be sparsed. (Preferably of type <str>)
+            _val (any): The value to be parsed. (Preferably of type <str>)
 
         Return:
             The method returns the appropriate data type based on the value of the passed parameter.
@@ -33,7 +33,8 @@ class ParseSystem:
             # Rejects spelling errors
             try:
                 return eval(_val)
-            except Exception:
+
+            except _:
                 return _val
 
         else:
