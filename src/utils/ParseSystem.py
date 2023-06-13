@@ -34,7 +34,7 @@ class ParseSystem:
             try:
                 return eval(_val)
 
-            except _:
+            except Exception:
                 return _val
 
         else:
